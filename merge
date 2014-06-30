@@ -1,0 +1,28 @@
+
+
+sql = ' select * from (select count(*) as cnt, title, unit, frequency, seasonal_adjustment from metrics group by title, unit, frequency, seasonal_adjustment order by cnt desc) s where cnt>1;'
+results = Metric.connection.select_all(sql)
+
+results.each do |row|
+  puts row.inspect()
+  sql2 = "select id from metrics where title='?' and unit='?' and frequency='?' and seasonal_adjustment='?'"
+ puts sql2
+  metrics = Metric.where( "title=? and unit=? and frequency=? and seasonal_adjustment=?",row['title'], row['unit'], row['frequency'],  row['seasonal_adjustment'])
+  next if metrics.first.nil?
+  target_id = metrics.first.id
+  metrics.each do |metric|
+  puts "Target ID #{target_id} , #{metric.id} "
+    next if target_id == metric.id
+    begin
+    sql_clear = "delete from measures where metric_id=#{metric.id} and dt in (select dt from measures where metric_id=#{target_id}) ";
+    puts sql_clear
+    ActiveRecord::Base.connection.execute(sql_clear)
+    sql = "update measures set metric_id=#{target_id} where metric_id=#{metric.id}"
+    puts sql
+    ActiveRecord::Base.connection.execute(sql)
+    Metric.delete(metric.id)
+    rescue
+    end
+  end
+  puts "---------"
+end

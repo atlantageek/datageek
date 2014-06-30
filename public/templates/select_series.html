@@ -1,0 +1,25 @@
+  <h1>Select Data Series</h1>
+
+  <div div class="row">
+    <label for="metric-search2">Metric Search: </label>
+    <input id="metric-search2" ng-model="pattern2" ng-change="getSearchData()" placeholder="Enter search term here">
+  </div>
+  <div class="row" style="margin-top:2em; font-family:Arial">
+    <div class="col-md-6">
+    <table width="100%" class="table table-striped">
+      <tr>
+        <th></th><th>Title</th><th>Unit</th><th>Button</th>
+      </tr>
+      <tbody ng-repeat="metric in metrics">
+        <tr>
+          <td><input type="checkbox" ng-model="metric.selected" ng-change="selectMetric(metric)"></td><td>{{metric.title}}</td>
+          <td>{{metric.unit}} ({{metric.frequency}})</td>
+          <td><button ng-click="drawMe(metric)">Draw</button> </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-5 md-offset-1">
+    <div id="placeholder" ></div>
+  </div>
+

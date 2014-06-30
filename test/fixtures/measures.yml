@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  metric_id: 
+  dt: 2014-06-23
+  val: 
+
+two:
+  metric_id: 
+  dt: 2014-06-23
+  val: 

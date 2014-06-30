@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  file: MyString
+  title: MyString
+  unit: MyString
+  frequency: MyString
+  seasonal_adjustment: MyString
+  last_updated: MyString
+
+two:
+  file: MyString
+  title: MyString
+  unit: MyString
+  frequency: MyString
+  seasonal_adjustment: MyString
+  last_updated: MyString

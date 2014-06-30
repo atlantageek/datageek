@@ -1,0 +1,13 @@
+<script>
+  $(function() {
+  });
+</script>
+<div >
+<div class="btn-group" ng-controller="MetricSearchCtrl">
+  <a href="#/SelectSeries" class="btn btn-default" data-toggle="button" ng-class="{active: current_state=='select'}">Select Datasets</a>
+  <a href="#/CombineSeries" class="btn btn-default" ng-click="getSelectedData()" ng-class="{disabled: !hasSelections()}" data-toggle="button" ng-class="{active: current_state=='build'}">Build Graph{{metric_list.length}}</a>
+  <button type="button" class="btn btn-default" data-toggle="button" ng-class="{disabled: metricobj.metric_list.length == 0}" ng-class="{active: current_state=='touchup'}">Touchup Graph</button>
+</div>
+{{current_state}}-
+<div ng-view></div>
+</div>
