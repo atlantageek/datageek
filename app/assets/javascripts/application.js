@@ -14,8 +14,8 @@
 //= require jquery_ujs
 //= require angular
 //= require jquery.ui.all
-//= require_tree .
 //= require jquery.flot
 //= require jquery.flot.resize
 //= require jquery.flot.time
 //= require bootstrap.min
+//= require_tree .

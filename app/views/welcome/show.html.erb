@@ -1,13 +1,96 @@
-<script>
-  $(function() {
-  });
-</script>
-<div >
-<div class="btn-group" ng-controller="MetricSearchCtrl">
-  <a href="#/SelectSeries" class="btn btn-default" data-toggle="button" ng-class="{active: current_state=='select'}">Select Datasets</a>
-  <a href="#/CombineSeries" class="btn btn-default" ng-click="getSelectedData()" ng-class="{disabled: !hasSelections()}" data-toggle="button" ng-class="{active: current_state=='build'}">Build Graph{{metric_list.length}}</a>
-  <button type="button" class="btn btn-default" data-toggle="button" ng-class="{disabled: metricobj.metric_list.length == 0}" ng-class="{active: current_state=='touchup'}">Touchup Graph</button>
-</div>
-{{current_state}}-
-<div ng-view></div>
+    <div class="row" style="margin-top:2em; font-family:Arial">
+      <div class="col-md-6">
+       <table width="100%" class="table table-striped">
+        <tr>
+          <th></th><th>Title</th><th>Unit</th><th>Button</th>
+        </tr>
+        <tbody ng-repeat="metric in metrics">
+          <tr>
+            <td><input type="checkbox" ng-model="metric.selected" ng-change="selectMetric(metric)"></td><td>{{metric.title}}</td>
+            <td>{{metric.unit}} ({{metric.frequency}})</td>
+            <td><button ng-click="drawMe(metric, '#placeholder')">Draw</button> </td>
+          </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="col-md-5 md-offset-1">
+        <div id="placeholder" class="graph"></div>
+      </div>
+    </div>
+  </div>
+  <div class="tab-pane" id="combine_series">
+    <h1> Combine Series</h1>
+    <button ng-click="drawMetrics()">Build Graph</button>
+    <div class="row" style="margin-top:2em; font-family:Arial">
+      <div class="col-md-6">
+              <td>{{ first_year }} + {{ last_year}}</td>
+        <table width="100%" class="table table-striped">
+          <tr>
+            <th >Title</th><th>Unit</th><th>Date Range</th><th>Button</th>
+          </tr>
+          <tbody ng-repeat="metric in selected_metrics">
+            <tr>
+              <td width="200px" ><div click-to-edit="metric.title"></div></td>
+              <td>{{metric.unit}} ({{metric.frequency}})</td>
+              <td>{{ metric['min'] }} - {{ metric['max']}}</td>
+              <td><select class="form-control" ng-model="metric.axis" ng-options="opt.label for opt in yaxis_select.options">
+                  </select> 
+</td>
+                {{yaxis_options}}-
+                {{parent.yaxis_options}}-
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-5 md-offset-1">
+        <div id="placeholder2" class="graph"></div>
+        <div >
+          <label for="graph_title">Chart Title:</label>
+          <input  class="form-control" ng-model="title"id="graph_title" placeholder="Enter Title for Chart.">
+        </div>
+        <div >
+          <label for="yaxis1">Left Y-Axis Title</label>
+          <input  class="form-control" ng-model="yaxis1_title" id="yaxis1_title" placeholder="Enter Title Left Y-Axis.">
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Left Axis index 
+          </label>
+        </div>
+        <form class="form-inline">
+        <div class="form-group">
+          <fieldset>
+          <label for="start_month">Start Period</label>
+          <select id="start_month" class="form-control" ng-model="start_month" ng-options="opt.label for opt in month_list.options"></select>
+          <select id="start_year" class="form-control" ng-model="start_year" ng-options="opt.label for opt in year_list.options"></select>
+          </fieldset>
+ <div class="form-group">
+    <label class="control-label"><i class="fa fa-calendar"></i> <i class="fa fa-arrows-h"></i> <i class="fa fa-calendar"></i> Date range <small>(dynamic)</small></label><br>
+    <div class="form-group">
+      <input type="text" class="form-control" ng-model="fromDate" data-max-date="{{untilDate}}" placeholder="From" bs-datepicker>
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" ng-model="untilDate" data-min-date="{{fromDate}}" placeholder="Until" bs-datepicker>
+    </div>
+  </div>
+        </div>
+        </form>
+        <p>
+        <form class="form-inline">
+        <div class="form-group">
+          <fieldset>
+          <label for="end_month">End Period</label>
+          <select id="end_month" class="form-control" ng-model="end_month" ng-options="opt.label for opt in month_list.options"></select>
+          <select id="end_year" class="form-control" ng-model="end_year" ng-options="opt.label for opt in year_list.options"></select>
+          </fieldset>
+        </div>
+        </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane" id="graph_series">
+			3
+      </div>
+    </div>
 </div>
