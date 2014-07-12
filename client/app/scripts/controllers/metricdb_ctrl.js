@@ -1,4 +1,4 @@
-var app = angular.module("MetricdbRails", []);
+var app = angular.module("bobApp");
 calculate_date_day = function(dt){
     elems = dt.split("-");
     y = parseInt(elems[0]);
@@ -219,8 +219,8 @@ app.controller("MetricSearchCtrl", function($scope, $http,$location, SelectedSer
   }
 
 
-  $scope.getSearchData = function() {
-    var pattern = $scope.pattern2
+  $scope.getSearchData = function(pattern) {
+    //var pattern = $scope.pattern2
     console.log($scope.pattern2);
     $http({method: "GET", url: "/metrics/index", params: {term: $scope.pattern2}})
       .success(function(data) {
