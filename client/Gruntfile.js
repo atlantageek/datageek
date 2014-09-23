@@ -1,4 +1,4 @@
-// Generated on 2014-07-10 using generator-angular 0.9.3
+// Generated on 2014-09-22 using generator-angular 0.9.3
 'use strict';
 
 // # Globbing
@@ -6,6 +6,8 @@
 // 'test/spec/{,*/}*.js'
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
+var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
+console.log(proxySnippet);
 
 module.exports = function (grunt) {
 
@@ -18,7 +20,7 @@ module.exports = function (grunt) {
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
-    dist: '../public'
+    dist: 'dist'
   };
 
   // Define the configuration for all the tasks
@@ -44,9 +46,9 @@ module.exports = function (grunt) {
         files: ['test/spec/{,*/}*.js'],
         tasks: ['newer:jshint:test', 'karma']
       },
-      styles: {
-        files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
-        tasks: ['newer:copy:styles', 'autoprefixer']
+      compass: {
+        files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
+        tasks: ['compass:server', 'autoprefixer']
       },
       gruntfile: {
         files: ['Gruntfile.js']
@@ -62,20 +64,26 @@ module.exports = function (grunt) {
         ]
       }
     },
-
-    // The actual grunt server settings
+// The actual grunt server settings
     connect: {
       options: {
         port: 9000,
-        // Change this to '0.0.0.0' to access the server from outside.
         hostname: 'localhost',
         livereload: 35729
       },
+      proxies: [{
+        context: '/', // the context of the data service
+        host: 'localhost/', // wherever the data service is running
+        changeOrigin: true,
+	port:3000,
+		xforward:false
+      }]
+     ,
       livereload: {
         options: {
-          open: true,
-          middleware: function (connect) {
-            return [
+          middleware: function (connect, options) {
+            return [ 
+		    proxySnippet,
               connect.static('.tmp'),
               connect().use(
                 '/bower_components',
@@ -83,7 +91,13 @@ module.exports = function (grunt) {
               ),
               connect.static(appConfig.app)
             ];
-          }
+          },
+          open: true,
+          base: [
+            '.tmp',
+            '<%= yeoman.app %>'
+          ],
+    
         }
       },
       test: {
@@ -95,7 +109,7 @@ module.exports = function (grunt) {
               connect.static('test'),
               connect().use(
                 '/bower_components',
-                connect.static('./bower_components')
+                connect.static('/bower_components')
               ),
               connect.static(appConfig.app)
             ];
@@ -163,11 +177,43 @@ module.exports = function (grunt) {
     // Automatically inject Bower components into the app
     wiredep: {
       options: {
-        cwd: '<%= yeoman.app %>'
       },
       app: {
         src: ['<%= yeoman.app %>/index.html'],
         ignorePath:  /\.\.\//
+      },
+      sass: {
+        src: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
+        ignorePath: /(\.\.\/){1,2}bower_components\//
+      }
+    },
+
+    // Compiles Sass to CSS and generates necessary files if requested
+    compass: {
+      options: {
+        sassDir: '<%= yeoman.app %>/styles',
+        cssDir: '.tmp/styles',
+        generatedImagesDir: '.tmp/images/generated',
+        imagesDir: '<%= yeoman.app %>/images',
+        javascriptsDir: '<%= yeoman.app %>/scripts',
+        fontsDir: '<%= yeoman.app %>/styles/fonts',
+        importPath: './bower_components',
+        httpImagesPath: '/images',
+        httpGeneratedImagesPath: '/images/generated',
+        httpFontsPath: '/styles/fonts',
+        relativeAssets: false,
+        assetCacheBuster: false,
+        raw: 'Sass::Script::Number.precision = 10\n'
+      },
+      dist: {
+        options: {
+          generatedImagesDir: '<%= yeoman.dist %>/images/generated'
+        }
+      },
+      server: {
+        options: {
+          debugInfo: true
+        }
       }
     },
 
@@ -321,8 +367,8 @@ module.exports = function (grunt) {
           src: ['generated/*']
         }, {
           expand: true,
-          cwd: 'bower_components/bootstrap/dist',
-          src: 'fonts/*',
+          cwd: '.',
+          src: 'bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/*',
           dest: '<%= yeoman.dist %>'
         }]
       },
@@ -337,13 +383,13 @@ module.exports = function (grunt) {
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
-        'copy:styles'
+        'compass:server'
       ],
       test: [
-        'copy:styles'
+        'compass'
       ],
       dist: [
-        'copy:styles',
+        'compass:dist',
         'imagemin',
         'svgmin'
       ]
