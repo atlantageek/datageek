@@ -2,19 +2,32 @@
 
 /**
  * @ngdoc overview
- * @name bobApp
+ * @name clientApp
  * @description
- * # bobApp
+ * # clientApp
  *
  * Main module of the application.
  */
 angular
-  .module('bobApp', [
+  .module('clientApp', [
     'ngAnimate',
     'ngCookies',
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch',
-    'autocomplete'
+    'ngTouch'
   ])
+  .config(function ($routeProvider) {
+    $routeProvider
+      .when('/', {
+        templateUrl: 'views/main.html',
+        controller: 'MainCtrl'
+      })
+      .when('/about', {
+        templateUrl: 'views/about.html',
+        controller: 'AboutCtrl'
+      })
+      .otherwise({
+        redirectTo: '/'
+      });
+  });

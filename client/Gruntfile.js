@@ -1,4 +1,4 @@
-// Generated on 2014-09-22 using generator-angular 0.9.3
+// Generated on 2014-09-28 using generator-angular 0.9.3
 'use strict';
 
 // # Globbing
@@ -6,8 +6,6 @@
 // 'test/spec/{,*/}*.js'
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
-var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
-console.log(proxySnippet);
 
 module.exports = function (grunt) {
 
@@ -64,26 +62,20 @@ module.exports = function (grunt) {
         ]
       }
     },
-// The actual grunt server settings
+
+    // The actual grunt server settings
     connect: {
       options: {
         port: 9000,
+        // Change this to '0.0.0.0' to access the server from outside.
         hostname: 'localhost',
         livereload: 35729
       },
-      proxies: [{
-        context: '/', // the context of the data service
-        host: 'localhost/', // wherever the data service is running
-        changeOrigin: true,
-	port:3000,
-		xforward:false
-      }]
-     ,
       livereload: {
         options: {
-          middleware: function (connect, options) {
-            return [ 
-		    proxySnippet,
+          open: true,
+          middleware: function (connect) {
+            return [
               connect.static('.tmp'),
               connect().use(
                 '/bower_components',
@@ -91,13 +83,7 @@ module.exports = function (grunt) {
               ),
               connect.static(appConfig.app)
             ];
-          },
-          open: true,
-          base: [
-            '.tmp',
-            '<%= yeoman.app %>'
-          ],
-    
+          }
         }
       },
       test: {
@@ -109,7 +95,7 @@ module.exports = function (grunt) {
               connect.static('test'),
               connect().use(
                 '/bower_components',
-                connect.static('/bower_components')
+                connect.static('./bower_components')
               ),
               connect.static(appConfig.app)
             ];
@@ -177,6 +163,7 @@ module.exports = function (grunt) {
     // Automatically inject Bower components into the app
     wiredep: {
       options: {
+       /* cwd: '<%= yeoman.app %>'*/
       },
       app: {
         src: ['<%= yeoman.app %>/index.html'],
