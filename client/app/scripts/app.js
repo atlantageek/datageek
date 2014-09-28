@@ -10,6 +10,7 @@
  */
 angular
   .module('clientApp', [
+		  'autocomplete',
     'ngAnimate',
     'ngCookies',
     'ngResource',
@@ -31,3 +32,4 @@ angular
         redirectTo: '/'
       });
   });
+
