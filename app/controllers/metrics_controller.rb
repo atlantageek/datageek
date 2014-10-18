@@ -2,7 +2,7 @@ class MetricsController < ApplicationController
   def index
     pattern = params[:term]
     pattern = pattern.strip.gsub(/\s+/," & ")
-    @metrics =Metric.where("title_text @@ to_tsquery('#{pattern}') ").order('random_val').limit(30).collect do |metric|
+    @metrics =Metric.select("title, min(unit) as unit, min(frequency) as frequency, min(id) as id").group("title").where("title_text @@ to_tsquery('#{pattern}') ").order("title").limit(1000).collect do |metric|
       {title: metric.title, unit: metric.unit, frequency: metric.frequency, id:metric.id}
     end
     render json: @metrics
@@ -27,6 +27,6 @@ puts @metrics
     Measure.where("metric_id=?",[metric_id]).order('dt').each { |meas|
       result.push([meas.dt, meas.val]);
     }
-    render json: result
+    render json: {id: metric_id, series: result}
   end
 end
