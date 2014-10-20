@@ -2,7 +2,7 @@ class MetricsController < ApplicationController
   def index
     pattern = params[:term]
     pattern = pattern.strip.gsub(/\s+/," & ")
-    @metrics =Metric.select("title, min(unit) as unit, min(frequency) as frequency, min(id) as id").group("title").where("title_text @@ to_tsquery('#{pattern}') ").order("title").limit(1000).collect do |metric|
+    @metrics =Metric.select("title, min(unit) as unit, min(frequency) as frequency, min(id) as id").group("title").where("title_text @@ to_tsquery('#{pattern}') ").order("title").limit(100).collect do |metric|
       {title: metric.title, unit: metric.unit, frequency: metric.frequency, id:metric.id}
     end
     render json: @metrics

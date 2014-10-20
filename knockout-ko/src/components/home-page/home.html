@@ -9,9 +9,10 @@
 </script>
 
 <table class="table table-striped">
-	<tr><th style="width:80%">Title</th><th>Unit</th><th>Frequency</th><th>Line</th></tr>
+  <tr><th>Select</th><th style="width:70%">Title</th><th>Unit</th><th>Frequency</th><th>Line</th></tr>
 	<tbody data-bind="foreach: canidates">
-        <tr data-bind="css:  id_class">
+        <tr data-bind="css: id_class">
+          <td><span data-bind="css: star_class, click:$parent.toggle_select"></span></td>
 		<td data-bind="text:title"></td><td data-bind="text:unit"></td><td data-bind="text:frequency"></td><td data-bind=""> <span class="inlinesparkline">1,4,4,7,5,9,10</span></td>
 	</tr>
 	</tbody>
