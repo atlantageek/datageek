@@ -15,7 +15,10 @@ gulp.task('webserver', function() {
       open: true,
       proxies: [
         {source: '/metrics/index', target: 'http://localhost:3000/metrics/index'},
-        {source: '/metrics/show', target: 'http://localhost:3000/metrics/show'}
+        {source: '/metrics/show', target: 'http://localhost:3000/metrics/show'},
+        {source: '/session/new', target: 'http://localhost:3000/session/new'},
+        {source: '/session/show', target: 'http://localhost:3000/session/show'},
+        {source: '/session/set', target: 'http://localhost:3000/session/set'}
       ]
     }));
 });

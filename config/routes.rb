@@ -1,4 +1,7 @@
 MetricdbRails::Application.routes.draw do
+  get "session/new"
+  get "session/show/:id" => 'session#show'
+  post "session/set" => 'session#set'
   get "metrics/index"
   get "metrics/show/:id" => 'metrics#show'
   get "metrics/selected" => 'metrics#selected'
@@ -7,7 +10,7 @@ MetricdbRails::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#show'
+  #root 'welcome#show'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

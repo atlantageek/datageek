@@ -8,6 +8,8 @@ gem 'angular-rails'
 gem 'pg'
 gem 'upsert'
 gem 'flot-rails'
+gem 'devise'
+gem 'byebug'
 
 # Use sqlite3 as the database for Active Record
 #gem 'sqlite3'

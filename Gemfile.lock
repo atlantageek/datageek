@@ -29,7 +29,11 @@ GEM
       coffee-script (~> 2.2.0)
       rails
     arel (4.0.2)
+    bcrypt (3.1.7)
     builder (3.1.4)
+    byebug (1.8.2)
+      columnize (~> 0.3.6)
+      debugger-linecache (~> 1.2.0)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -37,6 +41,15 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
+    columnize (0.3.6)
+    debugger-linecache (1.2.0)
+    devise (3.4.0)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 3.2.6, < 5)
+      responders
+      thread_safe (~> 0.1)
+      warden (~> 1.2.3)
     erubis (2.7.0)
     execjs (2.2.0)
     flot-rails (0.0.6)
@@ -59,6 +72,7 @@ GEM
     minitest (4.7.5)
     multi_json (1.10.1)
     nifty-generators (0.4.6)
+    orm_adapter (0.5.0)
     pg (0.17.1)
     polyglot (0.3.5)
     rack (1.5.2)
@@ -80,6 +94,8 @@ GEM
     rake (10.3.2)
     rdoc (4.1.1)
       json (~> 1.4)
+    responders (1.1.1)
+      railties (>= 3.2, < 4.2)
     sass (3.2.19)
     sass-rails (4.0.3)
       railties (>= 4.0.0, < 5.0)
@@ -111,13 +127,17 @@ GEM
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     upsert (2.0.3)
+    warden (1.2.3)
+      rack (>= 1.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   angular-rails
+  byebug
   coffee-rails (~> 4.0.0)
+  devise
   flot-rails
   jbuilder (~> 1.2)
   jquery-rails
