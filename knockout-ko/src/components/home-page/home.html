@@ -1,8 +1,10 @@
-<h2>Home</h2>
+<h3>Find and select the metrics you're interested in.</h3>
 
-<input type="text" data-bind="textInput: pattern, event: {keyup:updatePattern}">
+<label><input type="checkbox" data-bind="checked: show_bookmarks"> Show Bookmarked Metrics Only</label><br>
+<input type="text" data-bind="textInput: pattern, event: {keyup:updatePattern}, disable:show_bookmarks">
 <span data-bind="fadeVisible: busy_search" class="glyphicon glyphicon-flash" ></span>
-<p><em ><span data-bind='text: canidate_count() '></span></em></p>
+<p><em >Ex: insurance bank gdp</span></em></p>
+<p><span data-bind='text: canidate_count() '></span></p>
 
 <script type="text/javascript">
 </script>
@@ -12,7 +14,7 @@
 	<tbody data-bind="foreach: canidates">
         <tr data-bind="css: id_class">
           <td><span data-bind="css: star_class, click:$parent.toggle_select"></span></td>
-          <td data-bind="text:title"></td><td data-bind="text:unit"></td><td data-bind="text:frequency"></td><td data-bind=""> <span class="inlinesparkline"><span data-bind="click: $parent.sparkit">view graph</span></span></td>
+          <td data-bind="text:title"></td><td data-bind="text:unit"></td><td data-bind="text:frequency"></td><td data-bind=""> <span class="inlinesparkline"><span class="btn btn-primary btn-xs" data-bind="click: $parent.sparkit">view graph</span></span></td>
 	</tr>
 	</tbody>
 </table>

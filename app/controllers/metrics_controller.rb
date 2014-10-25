@@ -2,9 +2,23 @@ class MetricsController < ApplicationController
 
   def index
     pattern = params[:term]
-    pattern = pattern.strip.gsub(/\s+/," & ")
-    @metrics =Metric.select("title, min(unit) as unit, min(frequency) as frequency, min(id) as id").group("title").where("title_text @@ to_tsquery('#{pattern}') ").order("title").limit(1001).collect do |metric|
-      {title: metric.title, unit: metric.unit, frequency: metric.frequency, id:metric.id}
+    session_id = params[:bookmarks]
+    if (session_id)
+      puts "Whats selected."
+      metric_ids = []
+      MetricsSessions.where(:session_id => session_id).each {|ms| puts ms.metric_id;metric_ids.push(ms.metric_id)}
+      metric_list = metric_ids.join(',')
+      puts metric_list
+      @metrics =Metric.select("title, min(unit) as unit, min(frequency) as frequency, min(id) as id").group("title").
+                        where("id in (#{metric_list}) ").order("title").collect do |metric|
+        {title: metric.title, unit: metric.unit, frequency: metric.frequency, id:metric.id}
+      end
+    else
+      puts "DOING Search"
+      pattern = pattern.strip.gsub(/\s+/," & ")
+      @metrics =Metric.select("title, min(unit) as unit, min(frequency) as frequency, min(id) as id").group("title").where("title_text @@ to_tsquery('#{pattern}') ").order("title").limit(1001).collect do |metric|
+        {title: metric.title, unit: metric.unit, frequency: metric.frequency, id:metric.id}
+      end
     end
     render json: @metrics
   end

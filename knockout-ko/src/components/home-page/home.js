@@ -9,6 +9,15 @@ define(["knockout", "text!./home.html"], function(ko, homeTemplate) {
     self.selected = ko.observableArray();
     self.busy_search = ko.observable(false);
     self.entry_timer = 0;
+    self.show_bookmarks = ko.observable(false);
+    self.show_bookmarks.subscribe(function() {
+      session_id = $.cookie('geek_session')
+      if (self.show_bookmarks() == true) { self.updateMetricList({bookmarks: session_id});}
+      else { 
+          self.updateMetricList({term: self.pattern()});
+      }
+    });
+
 
     self.process_graph_data = function (data,idx)
     {
@@ -102,18 +111,13 @@ define(["knockout", "text!./home.html"], function(ko, homeTemplate) {
       });
     }
     self.update_selections();
-    self.updatePattern = function() {
-      if (self.entry_timer)
-      {
-        clearTimeout(self.entry_timer);
-      }
-        self.entry_timer = setTimeout(function() {
-          self.busy_search(true);
-	  $.ajax({url:"/metrics/index",
-	    data: {term: self.pattern()},
-	    type: 'GET',
-	    context: document.body ,
-	    dataType: "JSON"}).done(function(data) {
+    self.updateMetricList = function(search_criteria) {
+      self.busy_search(true);
+      $.ajax({url:"/metrics/index",
+        data: search_criteria,
+	  type: 'GET',
+	  context: document.body ,
+	  dataType: "JSON"}).done(function(data) {
 	    self.canidates.removeAll();
 	    for (i=0;i<data.length;i++)
 	    {
@@ -132,8 +136,16 @@ define(["knockout", "text!./home.html"], function(ko, homeTemplate) {
 	  console.log(self.canidates().length);
           self.busy_search(false);
 	  });
+    }
+    self.updatePattern = function() {
+      if (self.entry_timer)
+      {
+        clearTimeout(self.entry_timer);
+      }
+        self.entry_timer = setTimeout(function() {
+          self.updateMetricList({term: self.pattern()});
 	  return true;
-        }, 400);
+        }, 600);
   };
 
 
