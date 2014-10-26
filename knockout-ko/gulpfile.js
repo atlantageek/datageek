@@ -18,6 +18,7 @@ gulp.task('webserver', function() {
         {source: '/metrics/show', target: 'http://localhost:3000/metrics/show'},
         {source: '/session/new', target: 'http://localhost:3000/session/new'},
         {source: '/session/show', target: 'http://localhost:3000/session/show'},
+        {source: '/session/show_dtls', target: 'http://localhost:3000/session/show_dtls'},
         {source: '/session/set', target: 'http://localhost:3000/session/set'}
       ]
     }));

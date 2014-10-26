@@ -1,0 +1,49 @@
+<h3>Generate a Plot</h3>
+
+
+<form role="form">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="title">Graph Title</label>
+        <input type="text" class="form-control" id="title" placeholder="Title">
+      </div>
+      <div class="form-group">
+        <label for="start_date">Start Date</label>
+        <input type="date" class="form-control" id="start_date" placeholder="Start Date">
+      </div>
+      <div class="form-group">
+        <label for="stop_date">Stop Date</label>
+        <input type="date" class="form-control" id="stop_date" placeholder="Stop Date">
+      </div>
+      <div class="form-group">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox">Index to start of graph.
+          </label>
+        </div>
+      </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-7">
+      <div class="form-group" >
+        <label >Metrics to use</label>
+        <table class="table table-striped">
+        <tr><th style="width:70%">Title</th><th>Left Axis</th><th>Right Axis</th><th>None</th><th>Start Date</th><th>End Date</th></tr>
+	<tbody data-bind="foreach: selectedMetrics">
+        <tr >
+          <td data-bind="text:title"></td>
+          <td><input type="radio" data-bind="attr:{name:'axis-select' + id}, click: $parent.left_scale" value="left-axis"></td>
+          <td ><input type="radio" data-bind="attr:{name:'axis-select' + id}, click: $parent.right_scale" value="right-axis"></td>
+          <td ><input type="radio" data-bind="attr:{name:'axis-select' + id}, click: $parent.no_scale" value="no-axis" checked></td>
+          <td data-bind="text:min_dt"></td>
+          <td data-bind="text:max_dt"></td>
+	</tr>
+	</tbody>
+       </table>
+      </div>
+      <button data-bind="click:doit" class="btn btn-default">Submit</button>
+    </form>
+  </div>
+</div>

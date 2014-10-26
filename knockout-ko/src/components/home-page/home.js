@@ -1,5 +1,6 @@
 define(["knockout", "text!./home.html"], function(ko, homeTemplate) {
   
+  var available_metrics = new ko.subscribable();
 
   function HomeViewModel(route) {
     var self=this;

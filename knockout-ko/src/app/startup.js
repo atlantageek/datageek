@@ -25,5 +25,6 @@ ko.bindingHandlers.fadeVisible = {
 };
 
   // Start the application
+ 
   ko.applyBindings({ route: router.currentRoute });
 });

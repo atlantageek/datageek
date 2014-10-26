@@ -1,6 +1,7 @@
 MetricdbRails::Application.routes.draw do
   get "session/new"
   get "session/show/:id" => 'session#show'
+  get "session/show_dtls/:id" => 'session#show_dtls'
   post "session/set" => 'session#set'
   get "metrics/index"
   get "metrics/show/:id" => 'metrics#show'
